@@ -1,4 +1,4 @@
-const { user } = require('user');
+import user from 'user';
 
 const userData = {
   name: 'иван иванов',
