@@ -1,3 +1,5 @@
-# node-template-project
+# Основы Node.js
 
-## Стартовый шаблон node.js
+## Тема 2
+
+REPL / Module / Package
