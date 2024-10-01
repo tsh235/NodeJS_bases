@@ -16,6 +16,7 @@
   "author": "Tatyana Shustrova <tanyashustrova@yandex.ru>",
   "license": "",
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
