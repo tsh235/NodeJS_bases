@@ -1,3 +1,3 @@
-# node-template-project
+# Основы Node.js
 
-## Стартовый шаблон node.js
+Курс "Основы Node.js" от онлайн школы (https://js.methed.ru/node-js/)
