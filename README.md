@@ -1,3 +1,5 @@
-# node-template-project
+# Основы Node.js
 
-## Стартовый шаблон node.js
+## Тема 3
+
+NPM - пакет с пакетами
