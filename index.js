@@ -1,33 +1,71 @@
 #!/usr/bin/env node
-// выше - указание того, что данный код должен выполняться в node.js
-// далее нужно установить права на выполнение файла
-// в терминале написать команду chmod +x index.js
-// теперь для запуска приложения в терминале надо ввести команду ./index.js и нажать Enter
 
-// const args = process.argv;
-// console.log('args: ', args); // выведет массив из путей где нода установлена и путь до запуска
+import {generatePassword} from './service/generatePassword.service.js';
+import {getPasswordOptions} from './service/getPasswordOptions.service.js';
+import {getSetting, saveSetting} from './service/setting.service.js';
+import {argsParse} from './util/argsParse.js';
 
-// args:  [
-//   'C:\\Program Files\\nodejs\\node.exe',
-//   'C:\\Users\\NDKL-8\\Desktop\\LEARNING\\NodeJS\\NodeJS\\index.js'
-// ]
+const app = async () => {
+	const args = argsParse(process.argv, ['ask', 'setting']);
 
-// если теперть написать в терминале "./index.js привет мир", то в массив добавятся еще 2 элемента "привет" и "мир"
+	if (args.h || args.help) {
+		console.log(`
+		-h --help      | список команд (игнорирует другие команды)
+		-l --length    | длина пароля
+		-u --uppercase | включить заглавные буквы
+		-n --number    | включить числа
+		-s --special   | включить спецсимволы
+		ask -a --ask   | провести опрос	(игнорирует другие команды)
+		setting        | сохраняет настройки из параметров -l -u -n -s
+		`);
 
-// args:  [
-//   'C:\\Program Files\\nodejs\\node.exe',
-//   'C:\\Users\\NDKL-8\\Desktop\\LEARNING\\NodeJS\\NodeJS\\index.js',
-//   'привет',
-//   'мир'
-// ]
+		process.exit();
+	}
 
+	if (args.a || args.ask) {
+		console.log('Ответьте на вопросы:');
+		const options = await getPasswordOptions();
+		const password = generatePassword(options);
+		process.stdout.write(`Пароль: '${password}'\n`);
+		process.exit();
+	}
 
-// если не нужны путь для ноды и до файла, то пишем:
-const args = process.argv.slice(2);
-console.log('args: ', args);
-// ./index.js привет мир
-// args:  [ 'привет', 'мир' ]
+	const options = {
+		length: 16,
+		number: false,
+		uppercase: false,
+		special: false,
+	};
 
-// ./index.js Maks
-console.log('Привет, ', args[0]);
-// Привет, Maks
+	if (!args.setting) {
+		const setting = await getSetting();
+		Object.assign(options, setting);
+	}
+
+	if (args.l || args.length) {
+		options.length = +(args.l || args.length);
+	}
+
+	if (args.u || args.uppercase) {
+		options.uppercase = args.u || args.uppercase;
+	}
+
+	if (args.n || args.number) {
+		options.number = args.n || args.number;
+	}
+
+	if (args.s || args.special) {
+		options.special = args.s || args.special;
+	}
+
+	if (args.setting) {
+		await saveSetting(options);
+		process.exit();
+	}
+
+	const password = generatePassword(options);
+	process.stdout.write(`Пароль: '${password}'\n`);
+	process.exit();
+};
+
+app();

@@ -19,7 +19,7 @@ export const generatePassword = options => {
 
 	arr.length = options.length;
 	const password = arr.join('');
-	console.log('password: ', password);
+	return password;
 
 };
 
