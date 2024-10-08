@@ -1,5 +1,7 @@
 # Основы Node.js
 
-## Тема 8
+## Тема 9
 
-CLI приложение
+* Практика readline
+* OS & path
+* npm publish
