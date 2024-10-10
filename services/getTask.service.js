@@ -1,4 +1,4 @@
-import {getTodo} from '../utils/getTodo.js'
+import {getTodo} from '../modules/getTodo.js'
 
 export const getTask = async id => {
 	const todoList = await getTodo();

@@ -1,4 +1,4 @@
-import {getTodo} from '../utils/getTodo.js';
+import {getTodo} from '../modules/getTodo.js';
 import {writeTodo} from '../modules/writeTodo.js';
 
 export const changeStatus = async ({id, str}) => {

@@ -5,11 +5,12 @@ import {changeStatus} from './services/changeStatus.service.js';
 import {deleteTask} from './services/deleteTask.service.js';
 import {getTask} from './services/getTask.service.js';
 import {listTodo} from './services/listTodo.service.js';
+import {saveTodo} from './services/saveTodo.service.js';
 import {updateTask} from './services/updateTask.service.js';
 import {argsParse} from './utils/argsParse.js';
 
 const app = () => {
-	const args = argsParse(process.argv, ['add', 'list', 'get', 'update', 'status', 'delete']);
+	const args = argsParse(process.argv, ['add', 'list', 'get', 'update', 'status', 'delete', 'save']);
 
 	if (args.h || args.help) {
 		console.log(`
@@ -21,7 +22,13 @@ const app = () => {
 			update <id> <newTask>   | обновить задачу с указанным идентификатором
 			status <id> <newStatus> | обновить статус задачи с указанным идентификатором
 			delete <id>             | удалить задачу с указанным идентификатором
+			save <file-name.txt>    | сохранить список задач в указанный файл в папке пользователя
 		`);
+		return;
+	}
+
+	if (Object.values(args).every((val) => val === false)) {
+		console.log('Используйте -h или --help для вывода списка доступных команд');
 		return;
 	}
 
@@ -52,6 +59,11 @@ const app = () => {
 
 	if (args.delete) {
 		deleteTask(args.delete);
+		return;
+	}
+
+	if (args.save) {
+		saveTodo();
 		return;
 	}
 
