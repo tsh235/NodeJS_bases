@@ -1,10 +1,10 @@
 import { green } from 'colorette';
 
 const getTags = (data, arr) => {
+	let count = 0;
 	arr.forEach(item => {
 		let startTag = -1;
 		let endTag = -1;
-		let count = 0;
 		while (
 			(startTag = data.indexOf(item, startTag + 1)) !== -1 &&
 			(endTag = data.indexOf(`</${item.slice(1)}>`, endTag + 1)) !== -1
