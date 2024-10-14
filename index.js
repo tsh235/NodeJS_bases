@@ -35,7 +35,7 @@ const app = () => {
 	}
 
 	if (args.l) {
-		if (cats.includes(args.l)) {
+		if (langs.includes(args.l)) {
 			options.language = args.l;
 		} else {
 			console.log(`Язык не известен. Доступные языки: ${langs.join(', ')}`);
