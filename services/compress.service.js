@@ -2,10 +2,9 @@ import crypto from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import {createReadStream, createWriteStream, existsSync} from 'node:fs';
 import {createGzip} from 'node:zlib';
-import {parse} from 'node:path';
+import path from 'node:path';
 
 export const compress = async inputFile => {
-	console.log('inputFile: ', inputFile);
 	if (!inputFile.length) {
 		console.log('Не указано имя файла');
 		return;
@@ -16,26 +15,23 @@ export const compress = async inputFile => {
 		return;
 	}
 
+	const __dirname = path.dirname(inputFile);
+	const fileName = path.basename(inputFile);
+	const hashFileName = path.join(__dirname, fileName.replace('.', '_') + '.sha256');
+	const gzipFileName = path.join(__dirname, fileName.replace('.', '_') + '.gz');
+
 	try {
 		const data = await readFile(inputFile);
 		const hash = crypto.createHash('sha256').update(data).digest('hex');
 
-		const extname = parse(inputFile).ext.slice(1);
-		const fileName = parse(inputFile).name;
-		const dirPath = parse(inputFile).dir;
+		createWriteStream(hashFileName).write(hash);
+		console.log(`Хеш успешно сохранен в файле: ${hashFileName}`);
 
-		const dirName = dirPath === '' ? './' : `${dirPath}/`;
-
-		const outputHashFilePath = `${dirName}${fileName}_${extname}.sha256`;
-		createWriteStream(outputHashFilePath).write(hash);
-		console.log(`Хеш успешно сохранен в файле: ${outputHashFilePath}`);
-
-		const outputGzipFilePath = `${dirName}${fileName}_${extname}.gz`;
 		const input = createReadStream(inputFile);
-		const output = createWriteStream(outputGzipFilePath);
+		const output = createWriteStream(gzipFileName);
 
 		input.pipe(createGzip()).pipe(output);
-		console.log(`Данные успешно упакованы, архив находится здесь: ${outputGzipFilePath}`);
+		console.log(`Данные успешно упакованы, архив находится здесь: ${gzipFileName}`);
 	} catch (err) {
 		console.error(`Ошибка: ${err}`);
 	}
