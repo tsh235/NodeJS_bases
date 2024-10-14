@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "crypto": "node crypto",
+    "compress": "node compress",
+    "decompress": "node decompress",
     "dev": "nodemon index",
     "lint": "eslint . --fix"
   },
