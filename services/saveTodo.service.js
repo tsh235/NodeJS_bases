@@ -1,15 +1,16 @@
 import {writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {getTodo} from '../modules/getTodo.js';
+import {knex} from '../modules/connectDB.js';
 
 const filePath = path.join(os.homedir(), 'to-do.json');
 
 export const saveTodo = async () => {
-	const todoList = await getTodo();
+	const todoList = await knex('todos');
 
 	if (!todoList.length) {
 		console.log('Список задач пуст, сохранять нечего');
+		knex.destroy();
 		return;
 	}
 
@@ -20,4 +21,6 @@ export const saveTodo = async () => {
 	} catch (err) {
 		console.error(`Ошибка записи ${err.message}`);
 	}
+
+	knex.destroy();
 }

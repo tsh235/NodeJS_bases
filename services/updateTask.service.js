@@ -1,25 +1,13 @@
-import {getTodo} from '../modules/getTodo.js';
-import {writeTodo} from '../modules/writeTodo.js';
+import {knex} from '../modules/connectDB.js';
 
-export const updateTask = async ({id, str}) => {
-	const todoList = await getTodo();
+export const updateTask = async ({id, str: task}) => {
+	const isUpdatedTask = await knex('todos').where({id}).update({task});
 
-	if (!todoList.length) {
-		console.log('Список задач пуст');
-		return;
-	}
-
-	const [todo] = todoList.filter(item => item.id === +id);
-
-	if (todo) {
-		todoList.forEach(item => {
-			if (item.id === +id) {
-				item.task = str;
-			}
-		})
-		writeTodo('./to-do.json', JSON.stringify(todoList))
+	if (isUpdatedTask) {
 		console.log(`Задача с идентификатором ${id} обновлена`);
 	} else {
 		console.log(`Задачи с идентификатором ${id} не существует`);
 	}
+
+	knex.destroy();
 }
