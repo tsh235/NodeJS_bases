@@ -2,6 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {knex} from '../modules/connectDB.js';
+import {red} from 'colorette';
 
 const filePath = path.join(os.homedir(), 'to-do.json');
 
@@ -19,7 +20,7 @@ export const saveTodo = async () => {
 		console.log('Список задач записан на диск и находится по этому пути:');
 		console.log(`${filePath}`);
 	} catch (err) {
-		console.error(`Ошибка записи ${err.message}`);
+		console.error(red(`Ошибка записи ${err.message}`));
 	}
 
 	knex.destroy();

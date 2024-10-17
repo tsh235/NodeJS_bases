@@ -1,3 +1,4 @@
+import {blue} from 'colorette';
 import { knex } from '../modules/connectDB.js';
 
 export const listTodo = async () => {
@@ -9,7 +10,7 @@ export const listTodo = async () => {
 		return;
 	}
 
-	console.log('Список задач:');
+	console.log(blue('Список задач:'));
 	todoList.forEach(({id, status, task}) => {
 		console.log(`${id}. [${status}] ${task}`);
 	});
