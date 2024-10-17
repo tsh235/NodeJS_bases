@@ -1,3 +1,5 @@
 # Основы Node.js
 
-Курс "Основы Node.js" от онлайн школы [MethEd](https://js.methed.ru/node-js/)
+## Тема 14
+
+Работа с базой данных PostgreSQL из Node.js
